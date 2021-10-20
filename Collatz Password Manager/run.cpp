@@ -15,32 +15,19 @@ public:
 private:
 	string username;
 	string encrypted_password;
-	string encryptor(const string& raw_password);
+	friend string encryptor(const string& raw_password);
 };
-
-string Credential::encryptor(const string& raw_password) {
-	string encrypted_password = "";
-	int offset = 0;
-	for (const auto& ch : raw_password) {
-		offset = collatz_conjecture(ch+offset);
-		encrypted_password += to_string(offset);
-	}
-	cout << encrypted_password << endl;
-	return encrypted_password;
-}
 
 void Credential::write_to_file(const string& fname) {
 
 }
-
-
 
 int main() {
 
 	int choice = 0;
 	string username, password;
 	
-	const int EXIT = 5;
+	const int EXIT = 6;
 	const string PASSWORD_FILE_NAME = "password.txt";
 
 	Credential* cred = NULL;
@@ -54,7 +41,8 @@ int main() {
 			<< "2. Check username and password\n"
 			<< "3. Generate password strength analysis file\n"
 			<< "4. Analysis password strength analysis file\n"
-			<< "5. Exit\n";
+			<< "5. Decode the well known english sentence\n"
+			<< "6. Exit\n";
 
 		cin >> choice;
 
@@ -82,6 +70,10 @@ int main() {
 			cred->write_to_file(PASSWORD_FILE_NAME);
 
 			break;
+
+		case 5:
+			cout << "List of possible decoded sentences: " << endl;
+			statement_generator("");
 		}
 
 	}
