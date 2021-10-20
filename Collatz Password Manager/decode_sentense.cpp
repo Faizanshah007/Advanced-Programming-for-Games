@@ -49,24 +49,6 @@ list<string> get_possible_charater_group(const string& current_string) {
 	return group;
 }
 
-list<string> sentense_to_words(const string& statement) {
-	list<string> result;
-	string temp = "";
-	for (const char& alpha : statement) {
-		if (alpha != ' ') {
-			temp += alpha;
-		}
-		else {
-			result.push_back(temp);
-			temp = "";
-		}
-	}
-	if (temp != "") {
-		result.push_back(temp);
-	}
-	return result;
-}
-
 void rescursive_statement_generator(string statement) {
 	if (statement != "" && statement.back() == ' ') {
 		if (!dictionary.contains(sentense_to_words(statement).back())) return;

@@ -15,3 +15,5 @@ string to_lower(const string& s);
 string encryptor(const string& raw_password);
 
 extern void (*statement_generator)(string);
+
+list<string> sentense_to_words(const string& statement);

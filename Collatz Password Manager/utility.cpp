@@ -1,3 +1,4 @@
+#include <list>
 #include "utility.h"
 
 function<bool(const string& s)> is_printable_ASCII_string = [](const string& s) {
@@ -42,4 +43,22 @@ string encryptor(const string& raw_password) {
 		encrypted_password += to_string(offset);
 	}
 	return encrypted_password;
+}
+
+list<string> sentense_to_words(const string& statement) {
+	list<string> result;
+	string temp = "";
+	for (const char& alpha : statement) {
+		if (alpha != ' ') {
+			temp += alpha;
+		}
+		else {
+			result.push_back(temp);
+			temp = "";
+		}
+	}
+	if (temp != "") {
+		result.push_back(temp);
+	}
+	return result;
 }
