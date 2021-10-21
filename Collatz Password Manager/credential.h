@@ -14,7 +14,7 @@ public:
 	bool get_credentials(const string& uname, const string& fname);
 	bool verify_credential(const string& pass) { return (encryptor(pass) == encrypted_password); }
 
-private:
+protected:
 	string username;
 	string encrypted_password;
 	friend string encryptor(const string& raw_password);

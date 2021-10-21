@@ -1,5 +1,9 @@
 #include <list>
+#include <iostream>
+
 #include "utility.h"
+
+using namespace std;
 
 function<bool(const string& s)> is_printable_ASCII_string = [](const string& s) {
 	for (const auto& ch : s) {
@@ -38,7 +42,7 @@ string to_lower(const string& s) {
 string encryptor(const string& raw_password) {
 	string encrypted_password = "";
 	int offset = 0;
-	for (const auto& ch : raw_password) {
+	for (const unsigned char& ch : raw_password) {
 		offset = collatz_conjecture(ch + offset);
 		encrypted_password += to_string(offset);
 	}
@@ -61,4 +65,62 @@ list<string> sentense_to_words(const string& statement) {
 		result.push_back(temp);
 	}
 	return result;
+}
+
+list<string> get_possible_charater_group(const string& current_string, const string& encoded) {
+	string encrypt_s = "";
+	list<string> group;
+	bool prev_alpha_space = ((current_string != "") && (current_string.back() == ' ')) ? true : false;
+	for (int i = 32; i <= 126; ++i) {
+		string temp;
+		if (!isalpha(i) && (char)i != ' ') continue;
+		temp = current_string + (char)i;
+		encrypt_s = encryptor(temp);
+		if (encoded.find(encrypt_s) == 0) {
+			if ((char)i == ' ' && prev_alpha_space == false) {
+				group.clear();
+				group.push_back(" ");
+				return group;
+			}
+			group.push_back(string("") + (char)i);
+		}
+	}
+	return group;
+}
+
+list<string> get_possible_charater_group_all_ascii_no_rep(const string& current_string, const string& encoded) {
+	string encrypt_s = "";
+	list<string> group;
+
+	for (int i = 1; i <= 255; ++i) {
+
+		if (current_string.find((char)i) != -1) continue;
+
+		string temp;
+
+		temp = current_string + (char)i;
+		encrypt_s = encryptor(temp);
+		if (encoded.find(encrypt_s) == 0) {
+			group.push_back(string("") + (char)i);
+		}
+	}
+	return group;
+}
+
+
+bool rescursive_decoder(string statement, const string& encoded_str) {
+
+	if (encryptor(statement) == encoded_str) {
+		cout << "Decoded Password -> |" << statement << "|" << endl;
+		return true;
+	}
+
+	list<string> result = get_possible_charater_group_all_ascii_no_rep(statement, encoded_str);
+	
+	for (auto i = result.begin(); i != result.end(); ++i) {
+		//cout << *i << endl;
+		if(rescursive_decoder((statement + *i), encoded_str)) return true;
+	}
+
+	return false;
 }
