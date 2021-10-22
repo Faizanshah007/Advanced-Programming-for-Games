@@ -1,5 +1,6 @@
 #include <list>
 #include <iostream>
+#include<chrono>
 
 #include "utility.h"
 
@@ -88,13 +89,11 @@ list<string> get_possible_charater_group(const string& current_string, const str
 	return group;
 }
 
-list<string> get_possible_charater_group_all_ascii_no_rep(const string& current_string, const string& encoded) {
+list<string> get_possible_charater_group_small_alpha_rep(const string& current_string, const string& encoded) {
 	string encrypt_s = "";
 	list<string> group;
 
-	for (int i = 1; i <= 255; ++i) {
-
-		if (current_string.find((char)i) != -1) continue;
+	for (int i = 'a'; i <= 'z'; ++i) {
 
 		string temp;
 
@@ -107,20 +106,63 @@ list<string> get_possible_charater_group_all_ascii_no_rep(const string& current_
 	return group;
 }
 
-
-bool rescursive_decoder(string statement, const string& encoded_str) {
+bool rescursive_decoder_small_alpha(string statement, const string& encoded_str) {
 
 	if (encryptor(statement) == encoded_str) {
-		cout << "Decoded Password -> |" << statement << "|" << endl;
+		cout << "----------------------------------------------------------------------------------------------------------------------------" << endl;
+		cout << statement << endl;
+		cout << "----------------------------------------------------------------------------------------------------------------------------" << endl;
 		return true;
 	}
 
-	list<string> result = get_possible_charater_group_all_ascii_no_rep(statement, encoded_str);
-	
+	list<string> result = get_possible_charater_group_small_alpha_rep(statement, encoded_str);
+
 	for (auto i = result.begin(); i != result.end(); ++i) {
-		//cout << *i << endl;
-		if(rescursive_decoder((statement + *i), encoded_str)) return true;
+		if (rescursive_decoder_small_alpha((statement + *i), encoded_str)) return true;
 	}
 
 	return false;
 }
+
+list<string> get_possible_charater_group_all_ascii_no_rep(const string& current_string, const string& encoded) {
+	string encrypt_s = "";
+	list<string> group;
+
+	for (int i = 1; i <= 255; ++i) {
+
+		if (current_string.find((unsigned char)i) != -1) continue;
+
+		string temp;
+
+		temp = current_string + (char)i;
+		encrypt_s = encryptor(temp);
+		if (encoded.find(encrypt_s) == 0) {
+			group.push_back(string("") + (char)i);
+		}
+	}
+	return group;
+}
+
+bool rescursive_decoder_all_ascii(string statement, const string& encoded_str, const chrono::steady_clock::time_point& start_time) {
+
+	if ((chrono::duration_cast<chrono::seconds>(chrono::steady_clock::now() - start_time).count()) > 10) return false;
+
+	string encrypted_statement = encryptor(statement);
+
+	if (encryptor(statement) == encoded_str) {
+		cout << "----------------------------------------------------------------------------------------------------------------------------" << endl;
+		cout << statement << endl;
+		cout << "----------------------------------------------------------------------------------------------------------------------------" << endl;
+		return true;
+	}
+
+	list<string> result = get_possible_charater_group_all_ascii_no_rep(statement, encoded_str);
+
+	for (auto i = result.begin(); i != result.end(); ++i) {
+		if (rescursive_decoder_all_ascii((statement + *i), encoded_str, start_time)) return true;
+	}
+
+	return false;
+}
+
+

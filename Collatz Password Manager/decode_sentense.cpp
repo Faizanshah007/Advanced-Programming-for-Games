@@ -27,27 +27,6 @@ private:
 
 const string encoded = "27322810313331033910211452912207344136146925461033281533271031012815108114101";
 
-//list<string> get_possible_charater_group(const string& current_string) {
-//	string encrypt_s = "";
-//	list<string> group;
-//	bool prev_alpha_space = ((current_string != "") && (current_string.back() == ' ')) ? true : false;
-//	for (int i = 32; i <= 126; ++i) {
-//		string temp;
-//		if (!isalpha(i) && (char)i != ' ') continue;
-//		temp = current_string + (char)i;
-//		encrypt_s = encryptor(temp);
-//		if (encoded.find(encrypt_s) == 0) {
-//			if ((char)i == ' ' && prev_alpha_space == false) {
-//				group.clear();
-//				group.push_back(" ");
-//				return group;
-//			}
-//			group.push_back(string("") + (char)i);
-//		}
-//	}
-//	return group;
-//}
-
 void rescursive_statement_generator(string statement) {
 	if (statement != "" && statement.back() == ' ') {
 		if (!dictionary.contains(sentense_to_words(statement).back())) return;

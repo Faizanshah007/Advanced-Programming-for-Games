@@ -2,7 +2,6 @@
 #include <list>
 #include <memory>
 #include <fstream>
-
 #include "utility.h"
 #include "credential.h"
 #include "strength_analysis.h"
@@ -21,14 +20,11 @@ int main() {
 
 	Credential* cred = NULL;
 
-	list<string> temp; //removeeeeeee
-
 	while (choice != EXIT) {
 
 		choice = 0;
 		attempts_left = 3;
 
-		//unique_ptr<Strength_Analysis[]>
 		unique_ptr<Strength_Analysis> sa_first_half[10000], sa_second_half[10000];
 
 		for (int itr = 0; itr < 10000; ++itr) {
@@ -127,8 +123,8 @@ int main() {
 			len = 0;
 			for (int itr = 0; itr < 10000; ++itr) {
 				if (itr % 100 == 0) ++len;
-				pwdtest1 += static_cast<Non_rep_all_ascii*>(sa_first_half[itr].get())->generate_encrypted_passwords(len) + "\n";
-				pwdtest2 += static_cast<Rep_small_alpha*>(sa_second_half[itr].get())->generate_encrypted_passwords(len) + "\n";
+				pwdtest1 += static_cast<Rep_small_alpha*>(sa_second_half[itr].get())->generate_encrypted_passwords(len) + "\n";
+				pwdtest2 += static_cast<Non_rep_all_ascii*>(sa_first_half[itr].get())->generate_encrypted_passwords(len) + "\n";
 			}
 
 			try {
@@ -140,14 +136,12 @@ int main() {
 			break;
 
 		case 4:
-			//Add except handle;
-			//decode_test(PASSWORD_TEST_FILE_NAME);
-			//rescursive_decoder("", "67261192118108125931003716100");
-			/*temp = get_possible_charater_group_all_ascii("", "31");
-			for (auto itr = temp.begin(); itr != temp.end(); ++itr) {
-				cout << *itr << " " << (int)(unsigned char)(*itr)[0] << endl;
-			}*/
-			//encryptor("")
+			try {
+				decode_test(PASSWORD_TEST_FILE_NAME);
+			}
+			catch (const invalid_argument& iae) {
+				cout << " Unable to read data : " << iae.what() << "\n";
+			}
 
 			break;
 

@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -20,6 +21,6 @@ list<string> sentense_to_words(const string& statement);
 
 list<string> get_possible_charater_group(const string& current_string, const string& encoded);
 
-bool rescursive_decoder(string statement, const string& encoded_str);
+bool rescursive_decoder_small_alpha(string statement, const string& encoded_str);
 
-list<string> get_possible_charater_group_all_ascii_no_rep(const string& current_string, const string& encoded);
+bool rescursive_decoder_all_ascii(string statement, const string& encoded_str, const chrono::steady_clock::time_point& start_time);

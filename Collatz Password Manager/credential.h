@@ -12,7 +12,7 @@ public:
 	Credential() {}
 	void write_to_file(const string& fnmae);
 	bool get_credentials(const string& uname, const string& fname);
-	bool verify_credential(const string& pass) { return (encryptor(pass) == encrypted_password); }
+	inline bool verify_credential(const string& pass) { return (encryptor(pass) == encrypted_password); }
 
 protected:
 	string username;
