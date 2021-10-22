@@ -6,6 +6,7 @@
 
 using namespace std;
 
+extern bool show_decrypted_pass;
 
 extern function<bool(const string& s)> is_printable_ASCII_string;
 

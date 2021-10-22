@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const string encoded1 = "332328232810326232823411528231083423108101261083911634231162610821461113411652361163485267694436854454671065231281081374611611413953915108342341851193428152010821412328411165223202020332815711310113738151211334116833910";
+bool show_decrypted_pass;
 
 int main() {
 
@@ -137,6 +137,16 @@ int main() {
 
 		case 4:
 			try {
+				char inp;
+				cout << "Do you want to display the decrypted passwords? (y/n)" << endl;
+				cin >> inp;
+				if (inp == 'y' || inp == 'Y') {
+					show_decrypted_pass = true;
+				}
+				else {
+					show_decrypted_pass = false;
+				}
+				cout << endl << endl;
 				decode_test(PASSWORD_TEST_FILE_NAME);
 			}
 			catch (const invalid_argument& iae) {

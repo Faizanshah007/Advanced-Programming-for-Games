@@ -39,6 +39,7 @@ void decode_test(const string& fname) {
 	chrono::steady_clock::time_point prev_time = chrono::steady_clock::now();
 	while (data_file >> encoded_pass) {
 		if (loop_count % 100 == 0) {
+			cout << count << "% Complete for current category." << endl;
 			count = 0;
 			if (loop_count != 0) {
 				chrono::steady_clock::time_point curent_time = chrono::steady_clock::now();
@@ -59,10 +60,9 @@ void decode_test(const string& fname) {
 				++count; ++total_count;
 			}
 		}
-		cout << count << "% Complete. last encoded_pass: " << encoded_pass << endl;
 		++loop_count;
 	}
-	cout << "Succesfull Count - " << total_count << endl;
+	cout << "Total Succesfull Count - " << total_count << endl;
 }
 
 void write_data_to_file(const string& fname, const string& data) {
